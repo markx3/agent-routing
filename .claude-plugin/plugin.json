@@ -1,0 +1,6 @@
+{
+  "name": "agent-routing",
+  "description": "Subagent routing: feature-planner, debug-planner, builder, reviewer, explorer, mechanic, and the orchestration rules injected at session start",
+  "author": { "name": "Marcos Felipe Eipper" },
+  "repository": "https://github.com/markx3/agent-routing"
+}

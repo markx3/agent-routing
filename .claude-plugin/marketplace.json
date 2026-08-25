@@ -1,0 +1,8 @@
+{
+  "name": "agent-routing",
+  "description": "Private marketplace for the agent-routing plugin",
+  "owner": { "name": "Marcos Felipe Eipper" },
+  "plugins": [
+    { "name": "agent-routing", "source": "./" }
+  ]
+}
