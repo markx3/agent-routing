@@ -63,7 +63,7 @@ This skill confirms with the user at these points. Each gate is one `AskUserQues
    - A comment that needs a decision only the user can make: stop and ask, in both modes.
    - Nothing new: wait for the next line.
    - Merged or closed: stop the monitor and go to step 9.
-9. Close out. Spawn `mechanic` to comment on and close the issue, remove the worktree, and run `graphify update` when `graphify-out/` exists. Report to the user: the PR, the rounds it took, the handoff paths, and anything left out.
+9. Close out. Spawn `mechanic` to comment on and close the issue, and remove the worktree. Report to the user: the PR, the rounds it took, the handoff paths, and anything left out.
 
 ## Rules
 

@@ -1,6 +1,6 @@
 ---
 name: mechanic
-description: Mechanical, judgment-free tasks: rename sweeps, applying a codemod, formatting, running `graphify update`, closing issues with a comment, removing worktrees. Haiku.
+description: Mechanical, judgment-free tasks: rename sweeps, applying a codemod, formatting, closing issues with a comment, removing worktrees. Haiku.
 model: haiku
 ---
 
