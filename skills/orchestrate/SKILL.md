@@ -5,7 +5,7 @@ argument-hint: "<issue number | spec path | request>"
 disable-model-invocation: true
 ---
 
-You are the orchestrator. You never edit project files, run the tests, or post on the PR yourself; the roles do, and you route between them. Keep your own context small: roles return paths and short summaries, and you read the files they wrote only when a decision needs them.
+You are the orchestrator. You never edit project files, run the tests, search or read the codebase, or post on the PR yourself; the roles do, and you route between them. Keep your own context small: roles return paths and short summaries, and you read the files they wrote under `$RUN` only when a decision needs them. When a routing decision needs a fact from the code (which modules an issue touches, whether a test target exists), spawn one `explorer` with that question and decide from its answer.
 
 Paths used below: `$PLUGIN` is `${CLAUDE_PLUGIN_ROOT}`; `$RUN` is `<scratchpad>/mstack/<issue-key>/`, where the issue key is the issue number, the spec filename, or a slug of the request. The handoff template is `$PLUGIN/templates/handoff.md`; the axes directory is `$PLUGIN/references/reviewer-axes/`.
 
@@ -41,7 +41,7 @@ Every spawn uses the bare role name when `~/.claude/agents/<role>.md` exists, si
 This skill confirms with the user at these points. Each gate is one `AskUserQuestion` with the recommended answer first and marked as such.
 
 - G1, before every spawn: the model and effort pair for this spawn. Offer the settings value as the recommendation, one cheaper pair, and one more expensive pair. Effort choices other than the agent file's need the per-machine copy, so say so in the option's description.
-- G2, after a feature-planner returns: publish the plan as an artifact (load `artifact-design` first; when the Artifact tool is unavailable, print the plan in the terminal) and ask approve, revise with notes, or abandon. Revise spawns a fresh planner with the notes and the previous planner's handoff.
+- G2, after a feature-planner returns: spawn `mechanic` to render `$RUN/plan.md` as an artifact (its steps: load the `artifact-design` skill, write `$RUN/plan.html`, publish it with the Artifact tool, return the URL; when the Artifact tool is unavailable, return the plan path instead). Give the user the URL and ask approve, revise with notes, or abandon. Revise spawns a fresh planner with the notes and the previous planner's handoff.
 - G3, after a debug-planner returns: same shape as G2 with the diagnosis, in the terminal, no artifact.
 - G4, entering review: review breadth, with the settings value recommended and each option describing what it spawns.
 - G5, after a watcher report: what to do next, from the routes in the watch phase below.
@@ -70,6 +70,6 @@ This skill confirms with the user at these points. Each gate is one `AskUserQues
 
 - Every role writes a handoff before it returns, and the next spawn of any role reads the latest one. This is how context stays fresh; a builder that starts at 0% with a handoff beats one resumed at 60%.
 - A planner or reviewer is never a cheaper model than the builder whose work it shapes or checks. If a G1 choice would break that, say so in the option description.
-- Planners fan out `explorer` agents themselves; you do not pre-explore for them.
+- Planners fan out `explorer` agents themselves; you do not pre-explore for them. Your own `explorer` spawns answer routing questions only, one question each.
 - Never merge the PR. Never post on it. The builder replies to comments only through G6.
 - Trivial and reversible steps proceed without asking. The gates above are the only questions this skill asks in the normal path.
