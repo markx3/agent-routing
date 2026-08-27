@@ -1,6 +1,7 @@
 {
-  "name": "agent-routing",
-  "description": "Subagent routing: feature-planner, debug-planner, builder, reviewer, explorer, mechanic, and the orchestration rules injected at session start",
+  "name": "mstack",
+  "version": "0.1.0",
+  "description": "markx3's agentic stack: orchestration skills, planner, builder, reviewer, watcher, explorer, and mechanic roles, handoff documents between fresh agents",
   "author": { "name": "Marcos Felipe Eipper" },
-  "repository": "https://github.com/markx3/agent-routing"
+  "repository": "https://github.com/markx3/mstack"
 }
