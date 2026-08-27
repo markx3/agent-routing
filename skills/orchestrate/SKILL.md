@@ -1,7 +1,8 @@
 ---
 name: orchestrate
-description: Run one issue, spec, or request through mstack's roles: plan, build, review, open the PR, watch it, close out. Confirms model and effort before every spawn and approves plans, diagnoses, review breadth, watcher-triggered decisions, and PR replies with the user. Use for /mstack:orchestrate, "orchestrate this", or any multi-step code change in a repo that uses mstack.
+description: Run one issue, spec, or request through mstack's roles: plan, build, review, open the PR, watch it, close out. Confirms model and effort before every spawn and approves plans, diagnoses, review breadth, watcher-triggered decisions, and PR replies with the user. Invoke with /mstack:orchestrate.
 argument-hint: "<issue number | spec path | request>"
+disable-model-invocation: true
 ---
 
 You are the orchestrator. You never edit project files, run the tests, or post on the PR yourself; the roles do, and you route between them. Keep your own context small: roles return paths and short summaries, and you read the files they wrote only when a decision needs them.
