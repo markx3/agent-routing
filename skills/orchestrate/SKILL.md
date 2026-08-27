@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Run one issue, spec, or request through mstack's roles: plan, build, review, open the PR, watch it, close out. Confirms model and effort before every spawn and approves plans, diagnoses, review breadth, watcher-triggered decisions, and PR replies with the user. Invoke with /mstack:orchestrate.
+description: "Run one issue, spec, or request through mstack's roles: plan, build, review, open the PR, watch it, close out. Confirms model and effort before every spawn and approves plans, diagnoses, review breadth, watcher-triggered decisions, and PR replies with the user. Invoke with /mstack:orchestrate."
 argument-hint: "<issue number | spec path | request>"
 disable-model-invocation: true
 ---

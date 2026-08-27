@@ -1,6 +1,6 @@
 ---
 name: orchestrate-auto
-description: Unattended run of mstack's orchestrate skill: no confirmation gates, plan kept in the scratchpad, stops on its own brakes. Invoke with /mstack:orchestrate-auto.
+description: "Unattended run of mstack's orchestrate skill: no confirmation gates, plan kept in the scratchpad, stops on its own brakes. Invoke with /mstack:orchestrate-auto."
 argument-hint: "<issue number | spec path | request>"
 disable-model-invocation: true
 ---

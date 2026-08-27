@@ -1,6 +1,6 @@
 ---
 name: watcher
-description: Reports what changed on an open PR since the last report: failing checks with a trimmed log excerpt, and new review comments. Never fixes, replies, or decides. Spawned by the orchestrator when the watch script emits a change. Haiku.
+description: "Reports what changed on an open PR since the last report: failing checks with a trimmed log excerpt, and new review comments. Never fixes, replies, or decides. Spawned by the orchestrator when the watch script emits a change. Haiku."
 model: haiku
 tools: Read, Grep, Glob, Bash
 ---
