@@ -6,4 +6,4 @@ argument-hint: "<pr number or url> [auto]"
 
 Read `${CLAUDE_PLUGIN_ROOT}/skills/orchestrate/SKILL.md` and enter it at step 8, the watch phase, for the given PR. Before that: read the settings, resolve the PR's issue from its body or branch name to pick the issue key, create `$RUN/state.md` with phase `watch` if none exists, and check out the PR branch into a worktree if the PR is not already in one.
 
-With the `auto` argument, apply `orchestrate-auto`'s differences. The PR may belong to a teammate; the rules that the orchestrator never merges or posts hold, and G6 keeps every reply behind the user unless `auto` was given.
+With the `auto` argument, apply `orchestrate-auto`'s differences. The PR may belong to a teammate; the rules that the orchestrator never merges or posts hold, and G5 keeps every reply behind the user unless `auto` was given.

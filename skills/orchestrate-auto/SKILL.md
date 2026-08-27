@@ -5,9 +5,9 @@ argument-hint: "<issue number | spec path | request>"
 disable-model-invocation: true
 ---
 
-Read `${CLAUDE_PLUGIN_ROOT}/skills/orchestrate/SKILL.md` and follow it with these differences:
+Read `${CLAUDE_PLUGIN_ROOT}/skills/orchestrate/SKILL.md` and follow it with these differences: The prose rules and every spawn parameter stay the same.
 
-- Skip gates G1 through G6. Models come from the settings, the plan and diagnosis are accepted as returned, breadth is the settings value, watcher routing follows the routes without asking, and the builder posts its PR replies directly.
+- Skip gates G1 through G5. Models come from the settings, the plan and diagnosis are accepted as returned, breadth is the settings value, watcher routing follows the routes without asking, and the builder posts its PR replies directly.
 - Do not publish the plan as an artifact; `$RUN/plan.md` is its only copy.
 - Stop, write `state.md`, and report to the user when any of these holds, each read from the settings:
   - the build-review loop reaches `max build-review rounds`;

@@ -1,13 +1,17 @@
 ---
 name: orchestrate
-description: "Run one issue, spec, or request through mstack's roles: plan, build, review, open the PR, watch it, close out. Confirms model and effort before every spawn and approves plans, diagnoses, review breadth, watcher-triggered decisions, and PR replies with the user. Invoke with /mstack:orchestrate."
+description: "Run one issue, spec, or request through mstack's roles: plan, build, review, open the PR, watch it, close out. Approves plans, diagnoses, review breadth, watcher-triggered decisions, and PR replies with the user. Invoke with /mstack:orchestrate."
 argument-hint: "<issue number | spec path | request>"
 disable-model-invocation: true
 ---
 
 You are the orchestrator. You never edit project files, run the tests, search or read the codebase, or post on the PR yourself; the roles do, and you route between them. Keep your own context small: roles return paths and short summaries, and you read the files they wrote under `$RUN` only when a decision needs them. When a routing decision needs a fact from the code (which modules an issue touches, whether a test target exists), spawn one `explorer` with that question and decide from its answer.
 
-Paths used below: `$PLUGIN` is `${CLAUDE_PLUGIN_ROOT}`; `$RUN` is `<scratchpad>/mstack/<issue-key>/`, where the issue key is the issue number, the spec filename, or a slug of the request. The handoff template is `$PLUGIN/templates/handoff.md`; the axes directory is `$PLUGIN/references/reviewer-axes/`.
+Paths used below: `$PLUGIN` is `${CLAUDE_PLUGIN_ROOT}`; `$RUN` is `<scratchpad>/mstack/<issue-key>/`, where the issue key is the issue number, the spec filename, or a slug of the request. The handoff template is `$PLUGIN/templates/handoff.md`; the axes directory is `$PLUGIN/references/reviewer-axes/`; the review format file is `$PLUGIN/references/review-format-<review format>.md`, chosen by the `review format` setting; the prose rules file is `$PLUGIN/references/prose.md`.
+
+## Prose
+
+Read the prose rules file at the start of every run and write every message to the user by it. Every spawn below names the prose rules file in its prompt, in addition to the parameters listed for that role.
 
 ## Settings
 
@@ -24,6 +28,7 @@ explorer: sonnet
 watcher: haiku
 mechanic: haiku
 review breadth: gated
+review format: brief
 max parallel subagents: 4
 base branch: main
 watch interval active: 60
@@ -41,14 +46,13 @@ Every spawn uses the bare role name when `~/.claude/agents/<role>.md` exists, si
 
 This skill confirms with the user at these points. Each gate is one `AskUserQuestion` with the recommended answer first and marked as such.
 
-- G1, before every spawn: the model and effort pair for this spawn. Offer the settings value as the recommendation, one cheaper pair, and one more expensive pair. Effort choices other than the agent file's need the per-machine copy, so say so in the option's description.
-- G2, after a feature-planner returns: spawn `scribe` to render `$RUN/plan.md` as an artifact, with `$RUN/plan.html` as its output path; it returns the URL, or the plan path when the Artifact tool is unavailable. Give the user the URL and ask approve, revise with notes, or abandon. Revise spawns a fresh planner with the notes and the previous planner's handoff.
-- G3, after a debug-planner returns: same shape as G2 with the diagnosis, in the terminal, no artifact.
-- G4, entering review: review breadth, with the settings value recommended and each option describing what it spawns.
-- G5, after a watcher report: what to do next, from the routes in the watch phase below.
-- G6, before a builder posts any reply on the PR: the replies it listed in its handoff, approve all, pick, or none.
+- G1, after a feature-planner returns: spawn `scribe` to render `$RUN/plan.md` as an artifact, with `$RUN/plan.html` as its output path; it returns the URL, or the plan path when the Artifact tool is unavailable. Give the user the URL and ask approve, revise with notes, or abandon. Revise spawns a fresh planner with the notes and the previous planner's handoff.
+- G2, after a debug-planner returns: same shape as G1 with the diagnosis, in the terminal, no artifact.
+- G3, entering review: review breadth, with the settings value recommended and each option describing what it spawns.
+- G4, after a watcher report: what to do next, from the routes in the watch phase below.
+- G5, before a builder posts any reply on the PR: the replies it listed in its handoff, approve all, pick, or none.
 
-`orchestrate-auto` removes all six. Nothing else differs.
+Models are never asked for; they come from the settings, and the user changes them by editing `~/.claude/mstack.md` or rerunning `/mstack:setup`. `orchestrate-auto` removes all five gates. Nothing else differs.
 
 ## Procedure
 
@@ -56,10 +60,10 @@ This skill confirms with the user at these points. Each gate is one `AskUserQues
 2. If `$RUN/state.md` exists, read it and continue from the phase it records. Otherwise create it. `state.md` holds: phase, worktree path, branch, PR URL, the list of handoff paths in order, the pending gate if any, and the counters the stop rules use. Rewrite it at every phase change; a compacted or resumed session starts here.
 3. Create the worktree unless `state.md` already records one: `git worktree add -b <issue-key> <repo>/.worktrees/<issue-key> <base branch>`. Record it in `state.md`.
 4. Route. Broken behavior goes to `debug-planner`. A change with design surface (new types, a new module boundary, more than one subsystem, or any ambiguity in the spec) goes to `feature-planner`. A change whose shape the spec already dictates goes straight to `builder`. State which route you chose and why in one line.
-5. Plan phase. Spawn the planner with: the spec, the worktree, `$RUN/plan.md` (or `$RUN/diagnosis.md`) as the output path, `$RUN/<role>-<n>.md` as the handoff path, the template path, and the parallel cap. G2 or G3 follows. A planner that returns decisions only the user can make raises them in the same gate.
+5. Plan phase. Spawn the planner with: the spec, the worktree, `$RUN/plan.md` (or `$RUN/diagnosis.md`) as the output path, `$RUN/<role>-<n>.md` as the handoff path, the template path, and the parallel cap. G1 or G2 follows. A planner that returns decisions only the user can make raises them in the same gate.
 6. Build phase. Spawn a fresh `builder` with: the worktree, the spec and plan, the previous handoff path if any, `$RUN/builder-<n>.md` as its handoff path, the template, the base branch, and, after the first round, the review report and the watcher report it must address. Never resume a live builder; each round is a new spawn.
-7. Review phase. G4, then spawn `reviewer` with: the PR or diff range, the spec, the axes directory, the breadth, the parallel cap, the sub-reviewer model, `$RUN/review-<n>.md` as the report path, its handoff path, and the template. On request changes, increment the round counter and go to step 6 with the report path. On approve, continue.
-8. Watch phase. Start the monitor: `Monitor` with `persistent: true` running `$PLUGIN/scripts/pr-watch.sh <pr> <active> <idle>`; each line it emits is a state change and its exit means the PR merged or closed. On each line, spawn `watcher` with the PR, the previous watcher report path, and `$RUN/watcher-<n>.md`. Read its report and route, at G5 in this mode:
+7. Review phase. G3, then spawn `reviewer` with: the PR or diff range, the spec, the axes directory, the review format file, the breadth, the parallel cap, the sub-reviewer model, `$RUN/review-<n>.md` as the report path, its handoff path, and the template. On request changes, increment the round counter and go to step 6 with the report path. On approve, continue.
+8. Watch phase. Start the monitor: `Monitor` with `persistent: true` running `$PLUGIN/scripts/pr-watch.sh <pr> <active> <idle>`; each line it emits is a state change and its exit means the PR merged or closed. On each line, spawn `watcher` with the PR, the previous watcher report path, and `$RUN/watcher-<n>.md`. Read its report and route, at G4 in this mode:
    - A failing check, or a comment that asks for a change the plan already covers: fresh builder, step 6, with the report.
    - A comment that changes the design or scope: planner, step 5, with the comment quoted, then builder.
    - A comment that needs a decision only the user can make: stop and ask, in both modes.
@@ -70,7 +74,7 @@ This skill confirms with the user at these points. Each gate is one `AskUserQues
 ## Rules
 
 - Every role writes a handoff before it returns, and the next spawn of any role reads the latest one. This is how context stays fresh; a builder that starts at 0% with a handoff beats one resumed at 60%.
-- A planner or reviewer is never a cheaper model than the builder whose work it shapes or checks. If a G1 choice would break that, say so in the option description.
+- A planner or reviewer is never a cheaper model than the builder whose work it shapes or checks. If the settings break that, say so once at the start of the run and continue.
 - Planners fan out `explorer` agents themselves; you do not pre-explore for them. Your own `explorer` spawns answer routing questions only, one question each.
-- Never merge the PR. Never post on it. The builder replies to comments only through G6.
+- Never merge the PR. Never post on it. The builder replies to comments only through G5.
 - Trivial and reversible steps proceed without asking. The gates above are the only questions this skill asks in the normal path.

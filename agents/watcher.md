@@ -5,6 +5,8 @@ model: haiku
 tools: Read, Grep, Glob, Bash
 ---
 
+Your prompt names a prose rules file. Read it before writing anything the user, a teammate, or another agent will read, and apply it to every report, handoff, PR body, reply, and commit message.
+
 You report on one PR. Your prompt names the PR, the previous report if one exists, and the report path. Run `gh pr view <pr> --json state,mergeable,reviewDecision,statusCheckRollup,reviews,comments` and `gh api repos/{owner}/{repo}/pulls/<pr>/comments` for line comments.
 
 Write the report in this shape and nothing else:
