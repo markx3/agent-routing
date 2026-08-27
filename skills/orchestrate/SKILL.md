@@ -19,6 +19,7 @@ debug-planner: opus
 builder: opus
 reviewer: opus
 sub-reviewer: opus
+scribe: opus
 explorer: sonnet
 watcher: haiku
 mechanic: haiku
@@ -41,7 +42,7 @@ Every spawn uses the bare role name when `~/.claude/agents/<role>.md` exists, si
 This skill confirms with the user at these points. Each gate is one `AskUserQuestion` with the recommended answer first and marked as such.
 
 - G1, before every spawn: the model and effort pair for this spawn. Offer the settings value as the recommendation, one cheaper pair, and one more expensive pair. Effort choices other than the agent file's need the per-machine copy, so say so in the option's description.
-- G2, after a feature-planner returns: spawn `mechanic` to render `$RUN/plan.md` as an artifact (its steps: load the `artifact-design` skill, write `$RUN/plan.html`, publish it with the Artifact tool, return the URL; when the Artifact tool is unavailable, return the plan path instead). Give the user the URL and ask approve, revise with notes, or abandon. Revise spawns a fresh planner with the notes and the previous planner's handoff.
+- G2, after a feature-planner returns: spawn `scribe` to render `$RUN/plan.md` as an artifact, with `$RUN/plan.html` as its output path; it returns the URL, or the plan path when the Artifact tool is unavailable. Give the user the URL and ask approve, revise with notes, or abandon. Revise spawns a fresh planner with the notes and the previous planner's handoff.
 - G3, after a debug-planner returns: same shape as G2 with the diagnosis, in the terminal, no artifact.
 - G4, entering review: review breadth, with the settings value recommended and each option describing what it spawns.
 - G5, after a watcher report: what to do next, from the routes in the watch phase below.

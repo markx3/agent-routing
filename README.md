@@ -24,7 +24,8 @@ Requires `gh` authenticated against the repos you work in, and `jq`.
 | `sub-reviewer` | opus | high | Reviews one axis from its reference file |
 | `watcher` | haiku | default | Reports what changed on the PR: failing checks with a trimmed log, new comments. Never fixes or replies |
 | `explorer` | sonnet | low | Read-only codebase search for planners |
-| `mechanic` | haiku | default | Renders the plan as an artifact, closes the issue, removes the worktree |
+| `scribe` | opus | medium | Renders a plan or report as a claude.ai artifact for approval, following the artifact-design skill |
+| `mechanic` | haiku | default | Closes the issue, removes the worktree |
 
 Roles are addressed as `mstack:<role>`, unless a per-machine copy exists under the bare name (see the settings section). Planners and the reviewer are never a cheaper model than the builder whose work they shape or check.
 
