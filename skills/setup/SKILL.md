@@ -1,6 +1,6 @@
 ---
 name: setup
-description: "Write or update ~/.claude/mstack.md, the per-machine settings mstack's orchestrate skill reads: model per role, review breadth, watch intervals, base branch, parallel cap, auto-mode brakes. Use for /mstack:setup, "configure mstack", or "change mstack models"."
+description: "Write or update ~/.claude/mstack.md, the per-machine settings mstack's orchestrate skill reads: model per role, review breadth, watch intervals, base branch, parallel cap, auto-mode brakes. Use for /mstack:setup, 'configure mstack', or 'change mstack models'."
 ---
 
 Write `~/.claude/mstack.md`. If it exists, read it first and offer each current value as the recommended answer; otherwise recommend the defaults listed in `${CLAUDE_PLUGIN_ROOT}/skills/orchestrate/SKILL.md`.

@@ -1,6 +1,6 @@
 ---
 name: babysit
-description: "Watch an open PR and route what happens to it through mstack's roles: CI failures and mechanical comments to a fresh builder, design comments to a planner, decisions to the user. Use for /mstack:babysit <pr>, "babysit this PR", or "keep an eye on the PR"."
+description: "Watch an open PR and route what happens to it through mstack's roles: CI failures and mechanical comments to a fresh builder, design comments to a planner, decisions to the user. Use for /mstack:babysit <pr>, 'babysit this PR', or 'keep an eye on the PR'."
 argument-hint: "<pr number or url> [auto]"
 ---
 
