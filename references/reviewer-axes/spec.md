@@ -1,5 +1,5 @@
 # Spec
-Gate: always on. Adapted from Matt Pocock's `code-review` skill, Spec axis.
+Gate: always on.
 
 Does the diff implement what the spec asked for, no more and no less? Report:
 - Requirements the spec asks for that are missing or partial.

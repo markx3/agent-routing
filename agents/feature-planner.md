@@ -27,5 +27,3 @@ Plan sections, in this order:
 9. Out of scope.
 
 The plan is the smallest one that closes the issue: no speculative abstractions, no cleanup outside the issue. Write it to the plan path as plain markdown, write your handoff, and return the plan path plus the user decisions in full.
-
-This role adapts ideas from pstack `architect` (sketch types and signatures before code), superpowers `brainstorming` (spike, bounded, architectural), Matt Pocock's `to-spec` and `codebase-design` (seams and deep modules).

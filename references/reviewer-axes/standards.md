@@ -1,5 +1,5 @@
 # Standards
-Gate: on when the repo documents coding standards (CLAUDE.md, CONTRIBUTING.md, CODING_STANDARDS.md, docs/design/) or the diff exceeds 100 changed lines. Adapted from Matt Pocock's `code-review` skill, Standards axis, and Fowler's smell catalog (Refactoring, chapter 3).
+Gate: on when the repo documents coding standards (CLAUDE.md, CONTRIBUTING.md, CODING_STANDARDS.md, docs/design/) or the diff exceeds 100 changed lines.
 
 Two sources, in priority order. First, the repo's documented standards: cite the file and rule for each breach; these can be hard violations. Second, the smell baseline below, always a judgment call, and suppressed wherever a documented standard endorses the pattern. Skip anything a linter or formatter already enforces.
 

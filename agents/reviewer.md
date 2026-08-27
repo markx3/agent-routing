@@ -17,5 +17,3 @@ Read the spec, the project CLAUDE.md and CONTEXT.md, the full diff, and existing
 Spawn `sub-reviewer` with the sub-reviewer model, giving each the axis file path, the diff range, the spec path, and the standards files you found. Print the axes selected, the axes spawned, and the axes you walked yourself.
 
 Aggregate under one heading per axis. Do not merge or rerank findings across axes; a change can pass one axis and fail another, and reranking lets one mask the other. Each finding is one sentence with `file:line`, the suggested fix, and a severity: P0 breaks or corrupts or exposes, P1 a defect normal use will hit, P2 an edge case or maintainability trap, P3 minor. Close with a verdict, approve or request changes, and the worst finding per axis. Write the report to the report path, write your handoff, and return the report path with the verdict and the worst finding per axis.
-
-Axis design adapts Matt Pocock's `code-review` (two axes never reranked against each other) and Every's `ce-code-review` (persona gates and the P0-P3 scale).

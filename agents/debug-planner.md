@@ -13,5 +13,3 @@ Reproduce first: find or write the command that shows the failure and run it. If
 Then keep a hypothesis ledger. For each hypothesis, three lines: the hypothesis, the smallest probe that would falsify it (a command, a log line, a read of one function), and the verdict, VERIFIED, NOT VERIFIED, or INCONCLUSIVE, with the probe's output. Ask why until the verified hypothesis points at code that is wrong rather than code that is merely near the crash. Do not propose guards that silence the symptom.
 
 Write the report to the report path: the reproduction command and its output, the full ledger, the root cause with `file:line`, the proposed fix in one or two sentences, the regression test target, and anything you could not confirm. Write your handoff and return the report path plus the root cause line.
-
-The ledger adapts the hypothesis loop from pstack `figure-it-out`.

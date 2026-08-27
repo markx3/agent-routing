@@ -1,5 +1,5 @@
 # API contract
-Gate: on when the diff changes routes, request or response shapes, serializers, exported type signatures, public function signatures, or versioned interfaces. Adapted from Every's `ce-code-review`, api-contract reviewer.
+Gate: on when the diff changes routes, request or response shapes, serializers, exported type signatures, public function signatures, or versioned interfaces.
 
 Report: a change that breaks an existing caller or client, a field removed or renamed without a migration path, a response shape that differs between branches of the same endpoint, an error format that differs from the rest of the API, and a public signature whose types allow an illegal state.
 
