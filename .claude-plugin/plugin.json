@@ -1,6 +1,6 @@
 {
   "name": "mstack",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "markx3's agentic stack: orchestration skills, planner, builder, reviewer, watcher, explorer, and mechanic roles, handoff documents between fresh agents",
   "author": { "name": "Marcos Felipe Eipper" },
   "repository": "https://github.com/markx3/mstack"
